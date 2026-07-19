@@ -3,118 +3,266 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Gaeul | Portfolio</title>
+    <title>Gaeul | Profile</title>
+    <!-- FontAwesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         * {
             box-sizing: border-box;
+            margin: 0;
+            padding: 0;
         }
         body {
-            background-color: #0d0d0d;
-            color: #00ff66;
-            font-family: 'Courier New', Courier, monospace;
+            background-color: #0b0616; /* Dark cyber/neon background matching the outer image */
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             display: flex;
             justify-content: center;
             align-items: center;
-            height: 100vh;
-            margin: 0;
+            min-height: 100vh;
             padding: 20px;
-            overflow: hidden;
         }
-        .terminal-window {
+        /* Main Container Card */
+        .profile-card {
             width: 100%;
-            max-width: 650px;
-            background-color: #151515;
-            border: 1px solid #333;
-            border-radius: 6px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.7);
+            max-width: 550px;
+            background-color: #f3ebfc; /* Light lavender-tinted background */
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 0 30px rgba(138, 43, 226, 0.3);
+            border: 2px solid #dcd1f0;
+            position: relative;
         }
-        .terminal-header {
-            background-color: #222;
-            padding: 10px;
+        /* Top Banner */
+        .banner {
+            width: 100%;
+            height: 160px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); /* Fallback gradient */
+            background-image: url('banner.jpg'); /* Replace with your actual banner link */
+            background-size: cover;
+            background-position: center;
+            position: relative;
+        }
+        /* Header section holding avatar and badges */
+        .header-content {
+            position: relative;
+            padding: 0 25px;
+            height: 60px;
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-end;
+        }
+        /* Profile Picture Placement */
+        .avatar-container {
+            position: absolute;
+            top: -55px;
+            left: 25px;
+        }
+        .avatar {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            border: 4px solid #f3ebfc;
+            background-color: #e0d5f5;
+            object-fit: cover;
+        }
+        /* Badges Container */
+        .badges {
+            margin-left: 120px; /* Shifts badges right of the avatar */
+            margin-bottom: 15px;
+            display: flex;
+            gap: 8px;
+            font-size: 16px;
+        }
+        .badge {
+            color: #7240c2;
+        }
+        /* Core Profile Info Area */
+        .profile-body {
+            padding: 15px 25px 25px 25px;
+        }
+        .username {
+            font-size: 20px;
+            font-weight: 700;
+            color: #1a1523;
+        }
+        .subtitle {
+            font-size: 13px;
+            color: #655c75;
+            margin-bottom: 12px;
+            padding-bottom: 8px;
+            border-bottom: 1px solid #dfd6ee;
+        }
+        .section-title {
+            font-size: 13px;
+            font-weight: 700;
+            color: #2b223a;
+            text-transform: uppercase;
+            margin-bottom: 8px;
+            letter-spacing: 0.5px;
+        }
+        .about-text {
+            font-size: 14px;
+            color: #3b324c;
+            line-height: 1.5;
+            margin-bottom: 16px;
+        }
+        .about-text a {
+            color: #0099ff;
+            text-decoration: none;
+            font-weight: 600;
+        }
+        .about-text a:hover {
+            text-decoration: underline;
+        }
+        /* Roles / Badges Pill Layout */
+        .roles-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-bottom: 20px;
+        }
+        .role-pill {
+            background-color: #e6ddf7;
+            color: #2b223a;
+            padding: 5px 10px;
+            border-radius: 6px;
+            font-size: 12px;
+            font-weight: 500;
             display: flex;
             align-items: center;
-            border-bottom: 1px solid #333;
-            border-top-left-radius: 5px;
-            border-top-right-radius: 5px;
-        }
-        .buttons {
-            display: flex;
             gap: 6px;
-            margin-right: 15px;
+            border: 1px solid #dacff0;
         }
-        .btn {
-            width: 12px;
-            height: 12px;
+        .role-pill span.dot {
+            width: 8px;
+            height: 8px;
             border-radius: 50%;
-        }
-        .btn-close { background-color: #ff5f56; }
-        .btn-minimize { background-color: #ffbd2e; }
-        .btn-maximize { background-color: #27c93f; }
-        .title {
-            color: #888;
-            font-size: 12px;
-            flex-grow: 1;
-            text-align: center;
-            margin-right: 50px; /* Balance out the button spacing */
-        }
-        .terminal-body {
-            padding: 25px;
-            font-size: 16px;
-            line-height: 1.6;
-            min-height: 200px;
-        }
-        .cursor {
+            background-color: #000;
             display: inline-block;
-            width: 10px;
-            height: 17px;
-            background-color: #00ff66;
-            margin-left: 3px;
-            vertical-align: middle;
-            animation: blink 0.8s infinite;
         }
-        @keyframes blink {
-            0%, 49% { background-color: #00ff66; }
-            50%, 100% { background-color: transparent; }
+        /* Connections Grid Layout */
+        .connections-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+        }
+        .connection-card {
+            background-color: #eae0f8;
+            border: 1px solid #dacff0;
+            border-radius: 8px;
+            padding: 12px 14px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            text-decoration: none;
+            color: #2b223a;
+            transition: background-color 0.2s ease, transform 0.1s ease;
+        }
+        .connection-card:hover {
+            background-color: #dfd3f3;
+            transform: translateY(-1px);
+        }
+        .connection-left {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 14px;
+            font-weight: 600;
+        }
+        .connection-left i {
+            font-size: 16px;
+        }
+        /* Social Specific Icon Colors */
+        .fa-youtube { color: #ff0000; }
+        .fa-github { color: #181717; }
+        .fa-tiktok { color: #000000; }
+        .fa-discord { color: #5865F2; }
+        
+        .external-icon {
+            color: #9385a8;
+            font-size: 12px;
         }
     </style>
 </head>
 <body>
 
-<div class="terminal-window">
-    <div class="terminal-header">
-        <div class="buttons">
-            <div class="btn btn-close"></div>
-            <div class="btn btn-minimize"></div>
-            <div class="btn btn-maximize"></div>
+<div class="profile-card">
+    <!-- Top Banner -->
+    <div class="banner"></div>
+    
+    <!-- Header with Avatar and Small Badges -->
+    <div class="header-content">
+        <div class="avatar-container">
+            <img src="avatar.png" alt="Gaeul Avatar" class="avatar"> <!-- Replace with your actual avatar link -->
         </div>
-        <div class="title">visitor@gaeul:~</div>
+        <div class="badges">
+            <span class="badge"><i class="fa-solid fa-code"></i></span>
+            <span class="badge"><i class="fa-solid fa-compact-disc"></i></span>
+            <span class="badge"><i class="fa-solid fa-gamepad"></i></span>
+            <span class="badge"><i class="fa-solid fa-gem"></i></span>
+        </div>
     </div>
-    <div class="terminal-body">
-        <span id="output"></span><span class="cursor"></span>
+    
+    <!-- Profile Bio & Elements Details -->
+    <div class="profile-body">
+        <h1 class="username">gaeuly</h1>
+        <p class="subtitle">New Development</p>
+        
+        <h2 class="section-title">About Me</h2>
+        <p class="about-text">
+            I'm Gaeul<br>
+            a developer focusing on Discord Bot and Minecraft Server development. I enjoy exploring new technologies and creating unique experiences.<br><br>
+            Come join my server <a href="#" target="_blank">Discord</a> and I hope you'll join and play some games with me on .
+        </p>
+        
+        <h2 class="section-title">Roles</h2>
+        <div class="roles-container">
+            <div class="role-pill"><span class="dot"></span> Owner</div>
+            <div class="role-pill"><span class="dot"></span> Bot Developer</div>
+            <div class="role-pill"><span class="dot"></span> Gamer</div>
+            <div class="role-pill"><span class="dot"></span> Lonely</div>
+        </div>
+        
+        <h2 class="section-title">Connections</h2>
+        <div class="connections-grid">
+            <!-- YouTube Link -->
+            <a href="https://youtube.com" target="_blank" class="connection-card">
+                <div class="connection-left">
+                    <i class="fa-brands fa-youtube"></i>
+                    <span>Gaeul</span>
+                </div>
+                <i class="fa-solid fa-arrow-up-right-from-square external-icon"></i>
+            </a>
+            
+            <!-- GitHub Link -->
+            <a href="https://github.com" target="_blank" class="connection-card">
+                <div class="connection-left">
+                    <i class="fa-brands fa-github"></i>
+                    <span>Gaeuly</span>
+                </div>
+                <i class="fa-solid fa-arrow-up-right-from-square external-icon"></i>
+            </a>
+            
+            <!-- TikTok Link -->
+            <a href="https://tiktok.com" target="_blank" class="connection-card">
+                <div class="connection-left">
+                    <i class="fa-brands fa-tiktok"></i>
+                    <span>@_gaeuly</span>
+                </div>
+                <i class="fa-solid fa-arrow-up-right-from-square external-icon"></i>
+            </a>
+            
+            <!-- Discord Link -->
+            <a href="https://discord.com" target="_blank" class="connection-card">
+                <div class="connection-left">
+                    <i class="fa-brands fa-discord"></i>
+                    <span>Discord Server</span>
+                </div>
+                <i class="fa-solid fa-arrow-up-right-from-square external-icon"></i>
+            </a>
+        </div>
     </div>
 </div>
-
-<script>
-    const textToType = "Welcome to my space.\n> Loading core assets...\n> Identity confirmed: Gaeul\n> Status: Online and ready.";
-    let index = 0;
-
-    function typingEffect() {
-        if (index < textToType.length) {
-            let char = textToType.charAt(index);
-            // Convert newline characters into proper HTML breaks
-            if (char === "\n") {
-                document.getElementById('output').innerHTML += "<br>";
-            } else {
-                document.getElementById('output').innerHTML += char;
-            }
-            index++;
-            setTimeout(typingEffect, 60); // Speed of the typing animation
-        }
-    }
-
-    // Start typing once page finishes loading
-    window.onload = typingEffect;
-</script>
 
 </body>
 </html>
