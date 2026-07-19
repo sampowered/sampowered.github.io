@@ -12,7 +12,7 @@
             margin: 0;
             padding: 0;
         }
-                body {
+        body {
             background-image: url('bg.jpg'); /* The name of your background image file */
             background-size: cover;
             background-position: center;
@@ -24,9 +24,43 @@
             align-items: center;
             min-height: 100vh;
             padding: 20px;
-                }
+            overflow: hidden; /* Prevents scrolling during loading */
+        }
         
-        /* Main Container Card */
+        /* --- LOADING SCREEN ANIMATION STYLES --- */
+        #loading-screen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: #0b0616; /* Dark slate color matching the card theme */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+            transition: opacity 0.6s ease-in-out, visibility 0.6s;
+        }
+        #loading-text {
+            color: #f3ebfc;
+            font-size: 3rem;
+            font-weight: 700;
+            letter-spacing: 2px;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.3s ease-in-out, transform 0.3s ease-in-out;
+        }
+        #loading-text.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        /* Fade out the whole screen */
+        .fade-out {
+            opacity: 0;
+            visibility: hidden;
+        }
+
+        /* Main Container Card (Animate entrance once loaded) */
         .profile-card {
             width: 100%;
             max-width: 550px;
@@ -36,7 +70,15 @@
             box-shadow: 0 0 30px rgba(138, 43, 226, 0.3);
             border: 2px solid #dcd1f0;
             position: relative;
+            opacity: 0;
+            transform: scale(0.95);
+            transition: opacity 0.8s ease-out 0.4s, transform 0.8s ease-out 0.4s;
         }
+        body.loaded .profile-card {
+            opacity: 1;
+            transform: scale(1);
+        }
+
         /* Top Banner */
         .banner {
             width: 100%;
@@ -191,6 +233,11 @@
 </head>
 <body>
 
+<!-- Loading Screen Overlay Structure -->
+<div id="loading-screen">
+    <div id="loading-text">Welcome</div>
+</div>
+
 <div class="profile-card">
     <!-- Top Banner -->
     <div class="banner"></div>
@@ -267,6 +314,45 @@
         </div>
     </div>
 </div>
+
+<!-- Script handling sequential language updates -->
+<script>
+    const words = ["Welcome", "স্বাগতম", "स्वागत হে"];
+    const textElement = document.getElementById("loading-text");
+    const screenElement = document.getElementById("loading-screen");
+    let currentWordIndex = 0;
+
+    function cycleWords() {
+        if (currentWordIndex < words.length) {
+            // Display next word logic
+            textElement.textContent = words[currentWordIndex];
+            textElement.classList.add("visible");
+
+            // Duration visible
+            setTimeout(() => {
+                textElement.classList.remove("visible");
+                currentWordIndex++;
+                
+                // Gap transition delay
+                setTimeout(cycleWords, 300);
+            }, 1000); 
+        } else {
+            // Dismiss loader component screen overlay completely
+            screenElement.classList.add("fade-out");
+            document.body.classList.add("loaded");
+            
+            // Re-allow document layer scrolling safely
+            setTimeout(() => {
+                document.body.style.overflow = "auto";
+            }, 600);
+        }
+    }
+
+    // Initialize animation routine securely upon window readiness
+    window.addEventListener("DOMContentLoaded", () => {
+        setTimeout(cycleWords, 200);
+    });
+</script>
 
 </body>
 </html>
