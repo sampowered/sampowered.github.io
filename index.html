@@ -246,7 +246,7 @@
     <!-- Header with Avatar and Small Badges -->
     <div class="header-content">
         <div class="avatar-container">
-            <img src="avatar.jpeg" alt="Gaeul Avatar" class="avatar"> <!-- Replace with your actual avatar link -->
+            <img src="avatar.jpeg" alt="Gaeul Avatar" class="avatar">
         </div>
         <div class="badges">
             <span class="badge"><i class="fa-solid fa-code"></i></span>
@@ -264,7 +264,7 @@
         <h2 class="section-title">About Me</h2>
         <p class="about-text">
             Hey, I'm Samrat<br>
-            I’m a UI/UX designer, visual editor, and gamer. This site is my digital living room—a space where I share the interfaces I design, the videos I edit, and the things I love creating. I look at everything through a designer's lens, whether I'm pushing pixels in Figma, tweaking keyframes, or grinding for rank. Thanks for stopping by! <a href="#" target="_blank">Discord</a> and I hope you'll join and play some games with me on .
+            I’m a UI/UX designer, visual editor, and gamer. This site is my digital living room—a space where I share the interfaces I design, the videos I edit, and the things I love creating. I look at everything through a designer's lens, whether I'm pushing pixels in Figma, tweaking keyframes, or grinding for rank. Thanks for stopping by! Join my <a href="https://discord.com" target="_blank">Discord</a> server to play some games with me!
         </p>
         
         <h2 class="section-title">Roles</h2>
@@ -300,14 +300,15 @@
                 <div class="connection-left">
                     <i class="fa-brands fa-discord"></i>
                     <span>Discord Server</span>
-                    <!-- Instagram Link -->
-<a href="https://instagram.com/your_username" target="_blank" class="connection-card">
-    <div class="connection-left">
-        <i class="fa-brands fa-instagram"></i>
-        <span>@your_username</span>
-    </div>
-    <i class="fa-solid fa-arrow-up-right-from-square external-icon"></i>
-</a>
+                </div>
+                <i class="fa-solid fa-arrow-up-right-from-square external-icon"></i>
+            </a>
+
+            <!-- Instagram Link -->
+            <a href="https://instagram.com/your_username" target="_blank" class="connection-card">
+                <div class="connection-left">
+                    <i class="fa-brands fa-instagram"></i>
+                    <span>Instagram</span>
                 </div>
                 <i class="fa-solid fa-arrow-up-right-from-square external-icon"></i>
             </a>
@@ -324,31 +325,24 @@
 
     function cycleWords() {
         if (currentWordIndex < words.length) {
-            // Display next word logic
             textElement.textContent = words[currentWordIndex];
             textElement.classList.add("visible");
 
-            // Duration visible
             setTimeout(() => {
                 textElement.classList.remove("visible");
                 currentWordIndex++;
-                
-                // Gap transition delay
                 setTimeout(cycleWords, 300);
             }, 1000); 
         } else {
-            // Dismiss loader component screen overlay completely
             screenElement.classList.add("fade-out");
             document.body.classList.add("loaded");
             
-            // Re-allow document layer scrolling safely
             setTimeout(() => {
                 document.body.style.overflow = "auto";
             }, 600);
         }
     }
 
-    // Initialize animation routine securely upon window readiness
     window.addEventListener("DOMContentLoaded", () => {
         setTimeout(cycleWords, 200);
     });
