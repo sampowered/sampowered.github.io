@@ -27,6 +27,125 @@
             overflow: hidden;
         }
         
+        /* --- MUSIC PLAYER STYLES --- */
+        .music-player-widget {
+            position: fixed;
+            top: 25px;
+            left: 25px;
+            z-index: 1000;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            background: rgba(20, 15, 30, 0.45);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            padding: 10px 16px 10px 10px;
+            border-radius: 16px;
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.3);
+            color: #ffffff;
+            max-width: 380px;
+            width: calc(100% - 50px);
+        }
+        .music-cover {
+            width: 48px;
+            height: 48px;
+            border-radius: 12px;
+            background: rgba(255, 255, 255, 0.15);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+            color: #ffffff;
+            flex-shrink: 0;
+            overflow: hidden;
+            position: relative;
+        }
+        .music-cover img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            position: absolute;
+            top: 0;
+            left: 0;
+        }
+        .music-info {
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+            min-width: 0;
+        }
+        .music-title {
+            font-size: 14px;
+            font-weight: 600;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            color: #ffffff;
+        }
+        .music-controls-row {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .time-text {
+            font-size: 11px;
+            color: rgba(255, 255, 255, 0.8);
+            font-variant-numeric: tabular-nums;
+        }
+        .progress-bar-container {
+            flex-grow: 1;
+            height: 3px;
+            background: rgba(255, 255, 255, 0.25);
+            border-radius: 3px;
+            cursor: pointer;
+            position: relative;
+        }
+        .progress-bar {
+            height: 100%;
+            width: 0%;
+            background: #ffffff;
+            border-radius: 3px;
+            transition: width 0.1s linear;
+        }
+        .music-buttons {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-left: 4px;
+        }
+        .music-btn {
+            background: none;
+            border: none;
+            color: #ffffff;
+            font-size: 13px;
+            cursor: pointer;
+            opacity: 0.9;
+            transition: transform 0.1s ease, opacity 0.2s ease;
+            padding: 2px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .music-btn:hover {
+            opacity: 1;
+            transform: scale(1.1);
+        }
+        .music-btn.play-btn {
+            font-size: 16px;
+        }
+
+        /* Responsive placement for mobile screens */
+        @media (max-width: 600px) {
+            .music-player-widget {
+                top: 15px;
+                left: 50%;
+                transform: translateX(-50%);
+                width: calc(100% - 30px);
+            }
+        }
+
         /* --- LOADING SCREEN ANIMATION STYLES --- */
         #loading-screen {
             position: fixed;
@@ -72,6 +191,7 @@
             opacity: 0;
             transform: scale(0.95);
             transition: opacity 0.8s ease-out 0.4s, transform 0.8s ease-out 0.4s;
+            margin-top: 40px;
         }
         body.loaded .profile-card {
             opacity: 1;
@@ -235,6 +355,34 @@
 </head>
 <body>
 
+<!-- Floating Music Player -->
+<div class="music-player-widget">
+    <div class="music-cover">
+        <!-- Default fallback icon -->
+        <i class="fa-solid fa-music"></i>
+        <!-- Customizable image: Name your image 'musicimg.jpg' or 'musicimg.png' in GitHub -->
+        <img src="musicimg.jpg" alt="Cover" id="music-cover-img" onerror="this.style.display='none'">
+    </div>
+    <div class="music-info">
+        <div class="music-title">zenithsouuu</div>
+        <div class="music-controls-row">
+            <span class="time-text" id="current-time">0:00</span>
+            <div class="progress-bar-container" id="progress-container">
+                <div class="progress-bar" id="progress-bar"></div>
+            </div>
+            <span class="time-text" id="duration">0:00</span>
+        </div>
+    </div>
+    <div class="music-buttons">
+        <button class="music-btn" id="prev-btn"><i class="fa-solid fa-backward-step"></i></button>
+        <button class="music-btn play-btn" id="play-btn"><i class="fa-solid fa-play" id="play-icon"></i></button>
+        <button class="music-btn" id="next-btn"><i class="fa-solid fa-forward-step"></i></button>
+    </div>
+</div>
+
+<!-- Audio Source (Update src to your uploaded audio file in GitHub) -->
+<audio id="audio-player" src="music.mp3" preload="metadata"></audio>
+
 <!-- Loading Screen Overlay Structure -->
 <div id="loading-screen">
     <div id="loading-text">Welcome</div>
@@ -265,8 +413,7 @@
         <h2 class="section-title">About Me</h2>
         <p class="about-text">
             Hey, I'm Samrat<br>
-             UI/UX Designer • Visual Editor • Gamer
-Crafting clean interfaces, editing visuals, and finding design inspiration everywhere from video timelines to game HUDs. Thanks for stopping by!. Join my <a href="https://discord.com" target="_blank">Discord</a> server to play some games with me!
+            I’m a UI/UX designer, visual editor, and gamer. This site is my digital living room—a space where I share the interfaces I design, the videos I edit, and the things I love creating. I look at everything through a designer's lens, whether I'm pushing pixels in Figma, tweaking keyframes, or grinding for rank. Thanks for stopping by! Join my <a href="https://discord.com" target="_blank">Discord</a> server to play some games with me!
         </p>
         
         <h2 class="section-title">Roles</h2>
@@ -307,7 +454,7 @@ Crafting clean interfaces, editing visuals, and finding design inspiration every
             </a>
 
             <!-- Instagram Link -->
-            <a href="https://instagram.com/sampowered" target="_blank" class="connection-card">
+            <a href="https://instagram.com/your_username" target="_blank" class="connection-card">
                 <div class="connection-left">
                     <i class="fa-brands fa-instagram"></i>
                     <span>Instagram</span>
@@ -318,8 +465,9 @@ Crafting clean interfaces, editing visuals, and finding design inspiration every
     </div>
 </div>
 
-<!-- Loading Animation Handler -->
+<!-- Loading Animation & Music Player Logic -->
 <script>
+    // --- LOADING SCREEN LOGIC ---
     const words = ["Welcome", "স্বাগতম", "स्वागत"];
     const textElement = document.getElementById("loading-text");
     const screenElement = document.getElementById("loading-screen");
@@ -347,6 +495,69 @@ Crafting clean interfaces, editing visuals, and finding design inspiration every
 
     window.addEventListener("DOMContentLoaded", () => {
         setTimeout(cycleWords, 200);
+    });
+
+    // --- MUSIC PLAYER LOGIC ---
+    const audio = document.getElementById('audio-player');
+    const playBtn = document.getElementById('play-btn');
+    const playIcon = document.getElementById('play-icon');
+    const progressBar = document.getElementById('progress-bar');
+    const progressContainer = document.getElementById('progress-container');
+    const currentTimeEl = document.getElementById('current-time');
+    const durationEl = document.getElementById('duration');
+    const prevBtn = document.getElementById('prev-btn');
+    const nextBtn = document.getElementById('next-btn');
+
+    function formatTime(seconds) {
+        if (isNaN(seconds)) return "0:00";
+        const mins = Math.floor(seconds / 60);
+        const secs = Math.floor(seconds % 60);
+        return `${mins}:${secs < 10 ? '0' : ''}${secs}`;
+    }
+
+    function togglePlay() {
+        if (audio.paused) {
+            audio.play();
+            playIcon.classList.remove('fa-play');
+            playIcon.classList.add('fa-pause');
+        } else {
+            audio.pause();
+            playIcon.classList.remove('fa-pause');
+            playIcon.classList.add('fa-play');
+        }
+    }
+
+    playBtn.addEventListener('click', togglePlay);
+
+    audio.addEventListener('loadedmetadata', () => {
+        durationEl.textContent = formatTime(audio.duration);
+    });
+
+    audio.addEventListener('timeupdate', () => {
+        if (audio.duration) {
+            const percent = (audio.currentTime / audio.duration) * 100;
+            progressBar.style.width = `${percent}%`;
+            currentTimeEl.textContent = formatTime(audio.currentTime);
+            durationEl.textContent = formatTime(audio.duration);
+        }
+    });
+
+    progressContainer.addEventListener('click', (e) => {
+        const width = progressContainer.clientWidth;
+        const clickX = e.offsetX;
+        if (audio.duration) {
+            audio.currentTime = (clickX / width) * audio.duration;
+        }
+    });
+
+    // Restart track on Prev button
+    prevBtn.addEventListener('click', () => {
+        audio.currentTime = 0;
+    });
+
+    // Loop/Restart track on Next button
+    nextBtn.addEventListener('click', () => {
+        audio.currentTime = 0;
     });
 </script>
 
