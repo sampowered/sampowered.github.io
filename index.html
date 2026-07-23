@@ -190,19 +190,36 @@
             opacity: 1;
             transform: translateY(0);
         }
+
         .click-prompt {
-            position: absolute;
-            bottom: 40px;
-            color: rgba(243, 235, 252, 0.6);
-            font-size: 12px;
-            letter-spacing: 1px;
+            color: rgba(243, 235, 252, 0.85);
+            font-size: 1.1rem;
+            font-weight: 600;
+            letter-spacing: 3px;
             text-transform: uppercase;
-            animation: pulse 1.5s infinite;
+            opacity: 0;
+            transform: scale(0.95);
+            transition: opacity 0.5s ease, transform 0.5s ease;
+            pointer-events: none;
         }
-        @keyframes pulse {
-            0%, 100% { opacity: 0.3; }
-            50% { opacity: 0.9; }
+
+        .click-prompt.ready {
+            opacity: 1;
+            transform: scale(1);
+            animation: pulse-glow 2s infinite ease-in-out;
         }
+
+        @keyframes pulse-glow {
+            0%, 100% { 
+                opacity: 0.5;
+                text-shadow: 0 0 5px rgba(243, 235, 252, 0.2);
+            }
+            50% { 
+                opacity: 1;
+                text-shadow: 0 0 15px rgba(243, 235, 252, 0.8), 0 0 25px rgba(138, 43, 226, 0.6);
+            }
+        }
+
         .fade-out {
             opacity: 0;
             visibility: hidden;
@@ -262,9 +279,9 @@
             object-fit: cover;
         }
 
-        /* FIXED BADGES STYLING */
+        /* Badges Styling */
         .badges {
-            margin-left: 115px; /* Offset to align right next to avatar */
+            margin-left: 115px;
             display: flex;
             align-items: center;
             gap: 8px;
@@ -380,7 +397,6 @@
             font-size: 16px;
         }
 
-        /* Social Icons Branding Colors */
         .fa-youtube { color: #ff0000; }
         .fa-github { color: #181717; }
         .fa-discord { color: #5865F2; }
@@ -402,7 +418,7 @@
 <!-- Loading Screen Overlay -->
 <div id="loading-screen">
     <div id="loading-text">Welcome</div>
-    <div class="click-prompt">[ Click Anywhere to Unmute ]</div>
+    <div class="click-prompt" id="click-prompt">[ Click Anywhere to Enter ]</div>
 </div>
 
 <!-- Page Container -->
@@ -486,7 +502,7 @@
             <img src="musicimg.jpg" alt="Cover" id="music-cover-img" onerror="this.style.display='none'">
         </div>
         <div class="music-info">
-            <div class="music-title">SAM</div>
+            <div class="music-title">zenithsouuu</div>
             <div class="music-controls-row">
                 <span class="time-text" id="current-time">0:00</span>
                 <div class="progress-bar-container" id="progress-container">
@@ -519,8 +535,10 @@
     const nextBtn = document.getElementById('next-btn');
     const screenElement = document.getElementById("loading-screen");
     const textElement = document.getElementById("loading-text");
+    const promptElement = document.getElementById("click-prompt");
 
     let isPlaying = false;
+    let isReadyToEnter = false;
 
     function formatTime(seconds) {
         if (isNaN(seconds)) return "0:00";
@@ -575,14 +593,6 @@
     prevBtn.addEventListener('click', () => { audio.currentTime = 0; });
     nextBtn.addEventListener('click', () => { audio.currentTime = 0; });
 
-    const enableAudioOnUserInteraction = () => {
-        playAudio();
-        document.removeEventListener('click', enableAudioOnUserInteraction);
-        document.removeEventListener('keydown', enableAudioOnUserInteraction);
-    };
-    document.addEventListener('click', enableAudioOnUserInteraction);
-    document.addEventListener('keydown', enableAudioOnUserInteraction);
-
     // --- LOADING SCREEN LOGIC ---
     const words = ["Welcome", "স্বাগতম", "स्वागत"];
     let currentWordIndex = 0;
@@ -596,13 +606,25 @@
                 textElement.classList.remove("visible");
                 currentWordIndex++;
                 setTimeout(cycleWords, 300);
-            }, 1000); 
+            }, 800); 
         } else {
-            screenElement.classList.add("fade-out");
-            document.body.classList.add("loaded");
-            playAudio();
+            // Hide word text and show "Click to Enter" prompt
+            textElement.style.display = 'none';
+            promptElement.classList.add("ready");
+            isReadyToEnter = true;
         }
     }
+
+    function dismissOverlay() {
+        screenElement.classList.add("fade-out");
+        document.body.classList.add("loaded");
+        playAudio();
+    }
+
+    // Dismiss overlay on click (either early or when prompt is ready)
+    screenElement.addEventListener("click", () => {
+        dismissOverlay();
+    });
 
     window.addEventListener("DOMContentLoaded", () => {
         setTimeout(cycleWords, 200);
