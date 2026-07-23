@@ -38,7 +38,7 @@
             filter: brightness(0.85);
         }
 
-        /* --- LAYOUT CONTAINER (Centers Card & Music Player Together) --- */
+        /* --- LAYOUT CONTAINER --- */
         .page-container {
             display: flex;
             flex-direction: column;
@@ -49,7 +49,7 @@
             z-index: 10;
         }
         
-        /* --- MUSIC PLAYER STYLES (CENTERED UNDER CARD) --- */
+        /* --- MUSIC PLAYER STYLES --- */
         .music-player-widget {
             display: flex;
             align-items: center;
@@ -161,7 +161,7 @@
             font-size: 16px;
         }
 
-        /* --- LOADING SCREEN ANIMATION STYLES --- */
+        /* --- LOADING SCREEN --- */
         #loading-screen {
             position: fixed;
             top: 0;
@@ -206,9 +206,10 @@
         .fade-out {
             opacity: 0;
             visibility: hidden;
+            pointer-events: none;
         }
 
-        /* Main Container Card */
+        /* Profile Card */
         .profile-card {
             width: 100%;
             background-color: rgba(243, 235, 252, 0.92);
@@ -228,7 +229,7 @@
             transform: scale(1);
         }
 
-        /* Top Banner */
+        /* Banner */
         .banner {
             width: 100%;
             height: 160px;
@@ -239,18 +240,17 @@
             position: relative;
         }
 
-        /* Header section holding avatar and badges */
+        /* Header holding Avatar & Badges */
         .header-content {
             position: relative;
             padding: 0 25px;
-            height: 60px;
+            height: 55px;
             display: flex;
-            justify-content: space-between;
-            align-items: flex-end;
+            align-items: center;
         }
         .avatar-container {
             position: absolute;
-            top: -55px;
+            top: -50px;
             left: 25px;
         }
         .avatar {
@@ -261,18 +261,27 @@
             background-color: #e0d5f5;
             object-fit: cover;
         }
+
+        /* FIXED BADGES STYLING */
         .badges {
-            margin-left: 120px;
-            margin-bottom: 15px;
+            margin-left: 115px; /* Offset to align right next to avatar */
             display: flex;
+            align-items: center;
             gap: 8px;
-            font-size: 16px;
+            font-size: 15px;
+            background: rgba(218, 207, 240, 0.4);
+            padding: 6px 12px;
+            border-radius: 20px;
+            border: 1px solid rgba(218, 207, 240, 0.8);
         }
         .badge {
             color: #7240c2;
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
 
-        /* Profile Body Area */
+        /* Profile Body */
         .profile-body {
             padding: 15px 25px 25px 25px;
         }
@@ -338,7 +347,7 @@
             display: inline-block;
         }
 
-        /* Connections Grid Layout */
+        /* Connections Grid */
         .connections-grid {
             display: grid;
             grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -396,7 +405,7 @@
     <div class="click-prompt">[ Click Anywhere to Unmute ]</div>
 </div>
 
-<!-- Center Wrapper holding both Profile Card and Music Player -->
+<!-- Page Container -->
 <div class="page-container">
     
     <!-- Profile Card -->
@@ -408,10 +417,10 @@
                 <img src="avatar.jpeg" alt="Avatar" class="avatar">
             </div>
             <div class="badges">
-                <span class="badge"><i class="fa-solid fa-code"></i></span>
-                <span class="badge"><i class="fa-solid fa-compact-disc"></i></span>
-                <span class="badge"><i class="fa-solid fa-gamepad"></i></span>
-                <span class="badge"><i class="fa-solid fa-gem"></i></span>
+                <span class="badge" title="Developer"><i class="fa-solid fa-code"></i></span>
+                <span class="badge" title="Music"><i class="fa-solid fa-compact-disc"></i></span>
+                <span class="badge" title="Gamer"><i class="fa-solid fa-gamepad"></i></span>
+                <span class="badge" title="VIP"><i class="fa-solid fa-gem"></i></span>
             </div>
         </div>
         
@@ -470,7 +479,7 @@
         </div>
     </div>
 
-    <!-- Music Player (Centered Directly Below Profile Card) -->
+    <!-- Music Player -->
     <div class="music-player-widget">
         <div class="music-cover">
             <i class="fa-solid fa-music"></i>
@@ -566,7 +575,6 @@
     prevBtn.addEventListener('click', () => { audio.currentTime = 0; });
     nextBtn.addEventListener('click', () => { audio.currentTime = 0; });
 
-    // Enable Autoplay on ANY initial user click anywhere on screen
     const enableAudioOnUserInteraction = () => {
         playAudio();
         document.removeEventListener('click', enableAudioOnUserInteraction);
@@ -592,7 +600,7 @@
         } else {
             screenElement.classList.add("fade-out");
             document.body.classList.add("loaded");
-            playAudio(); // Attempt autoplay on load completion
+            playAudio();
         }
     }
 
