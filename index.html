@@ -21,7 +21,6 @@
             padding: 20px;
             overflow-x: hidden;
             background-color: #0b0616;
-            user-select: none;
         }
 
         /* --- VIDEO BACKGROUND STYLES --- */
@@ -39,226 +38,49 @@
             filter: brightness(0.85);
         }
 
-        /* --- CLICK TO ENTER / OVERLAY --- */
-        #overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100vw;
-            height: 100vh;
-            background-color: rgba(11, 6, 22, 0.95);
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            z-index: 9999;
-            cursor: pointer;
-            transition: opacity 0.5s ease, visibility 0.5s;
-        }
-        #overlay.hidden {
-            opacity: 0;
-            visibility: hidden;
-            pointer-events: none;
-        }
-        .enter-text {
-            color: #f3ebfc;
-            font-size: 2rem;
-            font-weight: 700;
-            letter-spacing: 2px;
-            animation: pulse 1.8s infinite ease-in-out;
-        }
-        @keyframes pulse {
-            0%, 100% { opacity: 0.4; transform: scale(0.98); }
-            50% { opacity: 1; transform: scale(1.02); }
-        }
-
-        /* --- LAYOUT CONTAINER --- */
+        /* --- LAYOUT CONTAINER (Centers Card & Music Player Together) --- */
         .page-container {
             display: flex;
             flex-direction: column;
             align-items: center;
-            gap: 16px;
+            gap: 20px;
             width: 100%;
-            max-width: 520px;
+            max-width: 550px;
             z-index: 10;
         }
-
-        /* --- PROFILE CARD --- */
-        .profile-card {
-            width: 100%;
-            background-color: rgba(243, 235, 252, 0.92);
-            backdrop-filter: blur(12px);
-            -webkit-backdrop-filter: blur(12px);
-            border-radius: 14px;
-            overflow: hidden;
-            box-shadow: 0 0 30px rgba(138, 43, 226, 0.25);
-            border: 2px solid rgba(220, 209, 240, 0.8);
-            position: relative;
-        }
-
-        /* Top Banner */
-        .banner {
-            width: 100%;
-            height: 160px;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            background-image: url('banner.gif');
-            background-size: cover;
-            background-position: center;
-            position: relative;
-        }
-
-        /* Profile Body Area */
-        .profile-body {
-            padding: 12px 25px 25px 25px;
-            position: relative;
-        }
-
-        /* Avatar overlapping banner */
-        .avatar {
-            width: 95px;
-            height: 95px;
-            border-radius: 50%;
-            border: 4px solid #f3ebfc;
-            background-color: #e0d5f5;
-            object-fit: cover;
-            position: absolute;
-            top: -50px;
-            left: 25px;
-        }
-
-        /* BADGES (Positioned directly under banner, right of avatar) */
-        .badges {
-            margin-left: 110px;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            font-size: 17px;
-            min-height: 35px;
-            margin-bottom: 8px;
-        }
-        .badge {
-            color: #7240c2;
-            display: flex;
-            align-items: center;
-        }
-
-        .username {
-            font-size: 20px;
-            font-weight: 700;
-            color: #1a1523;
-            margin-top: 4px;
-        }
-        .subtitle {
-            font-size: 13px;
-            color: #655c75;
-            margin-bottom: 12px;
-            padding-bottom: 8px;
-            border-bottom: 1px solid #dfd6ee;
-        }
-        .section-title {
-            font-size: 12px;
-            font-weight: 700;
-            color: #2b223a;
-            text-transform: uppercase;
-            margin-bottom: 8px;
-            letter-spacing: 0.5px;
-        }
-        .about-text {
-            font-size: 13.5px;
-            color: #3b324c;
-            line-height: 1.5;
-            margin-bottom: 16px;
-        }
-        .about-text a {
-            color: #0099ff;
-            text-decoration: none;
-            font-weight: 600;
-        }
-
-        /* Roles Section */
-        .roles-container {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 8px;
-            margin-bottom: 20px;
-        }
-        .role-pill {
-            background-color: #e6ddf7;
-            color: #2b223a;
-            padding: 5px 10px;
-            border-radius: 6px;
-            font-size: 12px;
-            font-weight: 500;
-            display: flex;
-            align-items: center;
-            gap: 6px;
-            border: 1px solid #dacff0;
-        }
-        .role-pill span.dot {
-            width: 7px;
-            height: 7px;
-            border-radius: 50%;
-            background-color: #000;
-        }
-
-        /* Connections Grid Layout */
-        .connections-grid {
-            display: grid;
-            grid-template-columns: repeat(2, minmax(0, 1fr));
-            gap: 10px;
-        }
-        .connection-card {
-            background-color: #eae0f8;
-            border: 1px solid #dacff0;
-            border-radius: 8px;
-            padding: 12px 14px;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            text-decoration: none;
-            color: #2b223a;
-            transition: background-color 0.2s ease;
-        }
-        .connection-card:hover {
-            background-color: #dfd3f3;
-        }
-        .connection-left {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            font-size: 13.5px;
-            font-weight: 600;
-        }
-        .fa-youtube { color: #ff0000; }
-        .fa-github { color: #181717; }
-        .fa-discord { color: #5865F2; }
-        .fa-instagram { color: #E4405F; }
-        .external-icon { color: #9385a8; font-size: 12px; }
-
+        
         /* --- MUSIC PLAYER STYLES (CENTERED UNDER CARD) --- */
         .music-player-widget {
             display: flex;
             align-items: center;
             gap: 12px;
-            background: rgba(20, 15, 30, 0.65);
+            background: rgba(20, 15, 30, 0.55);
             backdrop-filter: blur(12px);
             -webkit-backdrop-filter: blur(12px);
             padding: 10px 16px 10px 10px;
-            border-radius: 14px;
+            border-radius: 16px;
             border: 1px solid rgba(255, 255, 255, 0.15);
             box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.4);
             color: #ffffff;
             width: 100%;
+            opacity: 0;
+            transform: translateY(15px);
+            transition: opacity 0.8s ease-out 0.6s, transform 0.8s ease-out 0.6s;
         }
+        body.loaded .music-player-widget {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
         .music-cover {
-            width: 44px;
-            height: 44px;
-            border-radius: 10px;
+            width: 48px;
+            height: 48px;
+            border-radius: 12px;
             background: rgba(255, 255, 255, 0.15);
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 18px;
+            font-size: 20px;
             color: #ffffff;
             flex-shrink: 0;
             overflow: hidden;
@@ -280,7 +102,7 @@
             min-width: 0;
         }
         .music-title {
-            font-size: 13px;
+            font-size: 14px;
             font-weight: 600;
             white-space: nowrap;
             overflow: hidden;
@@ -310,24 +132,255 @@
             width: 0%;
             background: #ffffff;
             border-radius: 3px;
+            transition: width 0.1s linear;
         }
         .music-buttons {
             display: flex;
             align-items: center;
             gap: 10px;
+            margin-left: 4px;
         }
         .music-btn {
             background: none;
             border: none;
             color: #ffffff;
-            font-size: 12px;
+            font-size: 13px;
             cursor: pointer;
             opacity: 0.9;
+            transition: transform 0.1s ease, opacity 0.2s ease;
+            padding: 2px;
             display: flex;
             align-items: center;
             justify-content: center;
         }
-        .music-btn.play-btn { font-size: 15px; }
+        .music-btn:hover {
+            opacity: 1;
+            transform: scale(1.1);
+        }
+        .music-btn.play-btn {
+            font-size: 16px;
+        }
+
+        /* --- LOADING SCREEN ANIMATION STYLES --- */
+        #loading-screen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: #0b0616;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+            transition: opacity 0.6s ease-in-out, visibility 0.6s;
+            cursor: pointer;
+        }
+        #loading-text {
+            color: #f3ebfc;
+            font-size: 3rem;
+            font-weight: 700;
+            letter-spacing: 2px;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.3s ease-in-out, transform 0.3s ease-in-out;
+        }
+        #loading-text.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        .click-prompt {
+            position: absolute;
+            bottom: 40px;
+            color: rgba(243, 235, 252, 0.6);
+            font-size: 12px;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            animation: pulse 1.5s infinite;
+        }
+        @keyframes pulse {
+            0%, 100% { opacity: 0.3; }
+            50% { opacity: 0.9; }
+        }
+        .fade-out {
+            opacity: 0;
+            visibility: hidden;
+        }
+
+        /* Main Container Card */
+        .profile-card {
+            width: 100%;
+            background-color: rgba(243, 235, 252, 0.92);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 0 30px rgba(138, 43, 226, 0.3);
+            border: 2px solid rgba(220, 209, 240, 0.8);
+            position: relative;
+            opacity: 0;
+            transform: scale(0.95);
+            transition: opacity 0.8s ease-out 0.4s, transform 0.8s ease-out 0.4s;
+        }
+        body.loaded .profile-card {
+            opacity: 1;
+            transform: scale(1);
+        }
+
+        /* Top Banner */
+        .banner {
+            width: 100%;
+            height: 160px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background-image: url('banner.gif');
+            background-size: cover;
+            background-position: center;
+            position: relative;
+        }
+
+        /* Header section holding avatar and badges */
+        .header-content {
+            position: relative;
+            padding: 0 25px;
+            height: 60px;
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-end;
+        }
+        .avatar-container {
+            position: absolute;
+            top: -55px;
+            left: 25px;
+        }
+        .avatar {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            border: 4px solid #f3ebfc;
+            background-color: #e0d5f5;
+            object-fit: cover;
+        }
+        .badges {
+            margin-left: 120px;
+            margin-bottom: 15px;
+            display: flex;
+            gap: 8px;
+            font-size: 16px;
+        }
+        .badge {
+            color: #7240c2;
+        }
+
+        /* Profile Body Area */
+        .profile-body {
+            padding: 15px 25px 25px 25px;
+        }
+        .username {
+            font-size: 20px;
+            font-weight: 700;
+            color: #1a1523;
+        }
+        .subtitle {
+            font-size: 13px;
+            color: #655c75;
+            margin-bottom: 12px;
+            padding-bottom: 8px;
+            border-bottom: 1px solid #dfd6ee;
+        }
+        .section-title {
+            font-size: 13px;
+            font-weight: 700;
+            color: #2b223a;
+            text-transform: uppercase;
+            margin-bottom: 8px;
+            letter-spacing: 0.5px;
+        }
+        .about-text {
+            font-size: 14px;
+            color: #3b324c;
+            line-height: 1.5;
+            margin-bottom: 16px;
+        }
+        .about-text a {
+            color: #0099ff;
+            text-decoration: none;
+            font-weight: 600;
+        }
+        .about-text a:hover {
+            text-decoration: underline;
+        }
+
+        /* Roles Section */
+        .roles-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-bottom: 20px;
+        }
+        .role-pill {
+            background-color: #e6ddf7;
+            color: #2b223a;
+            padding: 5px 10px;
+            border-radius: 6px;
+            font-size: 12px;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            border: 1px solid #dacff0;
+        }
+        .role-pill span.dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background-color: #000;
+            display: inline-block;
+        }
+
+        /* Connections Grid Layout */
+        .connections-grid {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 10px;
+        }
+        .connection-card {
+            background-color: #eae0f8;
+            border: 1px solid #dacff0;
+            border-radius: 8px;
+            padding: 12px 14px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            text-decoration: none;
+            color: #2b223a;
+            transition: background-color 0.2s ease, transform 0.1s ease;
+        }
+        .connection-card:hover {
+            background-color: #dfd3f3;
+            transform: translateY(-1px);
+        }
+        .connection-left {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 14px;
+            font-weight: 600;
+        }
+        .connection-left i {
+            font-size: 16px;
+        }
+
+        /* Social Icons Branding Colors */
+        .fa-youtube { color: #ff0000; }
+        .fa-github { color: #181717; }
+        .fa-discord { color: #5865F2; }
+        .fa-instagram { color: #E4405F; }
+        
+        .external-icon {
+            color: #9385a8;
+            font-size: 12px;
+        }
     </style>
 </head>
 <body>
@@ -337,29 +390,32 @@
     <source src="bg.mp4" type="video/mp4">
 </video>
 
-<!-- Click to Enter Screen (Enables Audio Autoplay Seamlessly) -->
-<div id="overlay">
-    <div class="enter-text">Click Anywhere to Enter</div>
+<!-- Loading Screen Overlay -->
+<div id="loading-screen">
+    <div id="loading-text">Welcome</div>
+    <div class="click-prompt">[ Click Anywhere to Unmute ]</div>
 </div>
 
+<!-- Center Wrapper holding both Profile Card and Music Player -->
 <div class="page-container">
     
     <!-- Profile Card -->
     <div class="profile-card">
         <div class="banner"></div>
         
-        <div class="profile-body">
-            <!-- Avatar overlapping top edge -->
-            <img src="avatar.jpeg" alt="Avatar" class="avatar">
-
-            <!-- Badges placed inside white card area right of avatar -->
+        <div class="header-content">
+            <div class="avatar-container">
+                <img src="avatar.jpeg" alt="Avatar" class="avatar">
+            </div>
             <div class="badges">
                 <span class="badge"><i class="fa-solid fa-code"></i></span>
                 <span class="badge"><i class="fa-solid fa-compact-disc"></i></span>
                 <span class="badge"><i class="fa-solid fa-gamepad"></i></span>
                 <span class="badge"><i class="fa-solid fa-gem"></i></span>
             </div>
-
+        </div>
+        
+        <div class="profile-body">
             <h1 class="username">SAM</h1>
             <p class="subtitle">Gamer?</p>
             
@@ -414,14 +470,14 @@
         </div>
     </div>
 
-    <!-- Music Player Directly Below Main Card -->
+    <!-- Music Player (Centered Directly Below Profile Card) -->
     <div class="music-player-widget">
         <div class="music-cover">
             <i class="fa-solid fa-music"></i>
             <img src="musicimg.jpg" alt="Cover" id="music-cover-img" onerror="this.style.display='none'">
         </div>
         <div class="music-info">
-            <div class="music-title">SAM POWERED</div>
+            <div class="music-title">zenithsouuu</div>
             <div class="music-controls-row">
                 <span class="time-text" id="current-time">0:00</span>
                 <div class="progress-bar-container" id="progress-container">
@@ -439,7 +495,7 @@
 
 </div>
 
-<!-- Audio Element -->
+<!-- Audio Source -->
 <audio id="audio-player" src="music.mp3" preload="auto" loop></audio>
 
 <script>
@@ -450,7 +506,12 @@
     const progressContainer = document.getElementById('progress-container');
     const currentTimeEl = document.getElementById('current-time');
     const durationEl = document.getElementById('duration');
-    const overlay = document.getElementById('overlay');
+    const prevBtn = document.getElementById('prev-btn');
+    const nextBtn = document.getElementById('next-btn');
+    const screenElement = document.getElementById("loading-screen");
+    const textElement = document.getElementById("loading-text");
+
+    let isPlaying = false;
 
     function formatTime(seconds) {
         if (isNaN(seconds)) return "0:00";
@@ -459,26 +520,27 @@
         return `${mins}:${secs < 10 ? '0' : ''}${secs}`;
     }
 
-    // Start playback when user clicks anywhere
-    overlay.addEventListener('click', () => {
-        overlay.classList.add('hidden');
+    function playAudio() {
         audio.play().then(() => {
+            isPlaying = true;
             playIcon.classList.remove('fa-play');
             playIcon.classList.add('fa-pause');
-        }).catch(e => console.log("Audio play blocked:", e));
-    });
+        }).catch(err => {
+            console.log("Autoplay waiting for interaction:", err);
+        });
+    }
 
-    playBtn.addEventListener('click', () => {
+    function togglePlay() {
         if (audio.paused) {
-            audio.play();
-            playIcon.classList.remove('fa-play');
-            playIcon.classList.add('fa-pause');
+            playAudio();
         } else {
             audio.pause();
             playIcon.classList.remove('fa-pause');
             playIcon.classList.add('fa-play');
         }
-    });
+    }
+
+    playBtn.addEventListener('click', togglePlay);
 
     audio.addEventListener('loadedmetadata', () => {
         durationEl.textContent = formatTime(audio.duration);
@@ -501,8 +563,42 @@
         }
     });
 
-    document.getElementById('prev-btn').addEventListener('click', () => { audio.currentTime = 0; });
-    document.getElementById('next-btn').addEventListener('click', () => { audio.currentTime = 0; });
+    prevBtn.addEventListener('click', () => { audio.currentTime = 0; });
+    nextBtn.addEventListener('click', () => { audio.currentTime = 0; });
+
+    // Enable Autoplay on ANY initial user click anywhere on screen
+    const enableAudioOnUserInteraction = () => {
+        playAudio();
+        document.removeEventListener('click', enableAudioOnUserInteraction);
+        document.removeEventListener('keydown', enableAudioOnUserInteraction);
+    };
+    document.addEventListener('click', enableAudioOnUserInteraction);
+    document.addEventListener('keydown', enableAudioOnUserInteraction);
+
+    // --- LOADING SCREEN LOGIC ---
+    const words = ["Welcome", "স্বাগতম", "स्वागत"];
+    let currentWordIndex = 0;
+
+    function cycleWords() {
+        if (currentWordIndex < words.length) {
+            textElement.textContent = words[currentWordIndex];
+            textElement.classList.add("visible");
+
+            setTimeout(() => {
+                textElement.classList.remove("visible");
+                currentWordIndex++;
+                setTimeout(cycleWords, 300);
+            }, 1000); 
+        } else {
+            screenElement.classList.add("fade-out");
+            document.body.classList.add("loaded");
+            playAudio(); // Attempt autoplay on load completion
+        }
+    }
+
+    window.addEventListener("DOMContentLoaded", () => {
+        setTimeout(cycleWords, 200);
+    });
 </script>
 
 </body>
