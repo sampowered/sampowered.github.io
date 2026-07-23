@@ -19,7 +19,7 @@
             align-items: center;
             min-height: 100vh;
             padding: 20px;
-            overflow: hidden;
+            overflow-x: hidden;
             background-color: #0b0616;
         }
 
@@ -37,27 +37,41 @@
             object-fit: cover;
             filter: brightness(0.85);
         }
+
+        /* --- LAYOUT CONTAINER (Centers Card & Music Player Together) --- */
+        .page-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 20px;
+            width: 100%;
+            max-width: 550px;
+            z-index: 10;
+        }
         
-        /* --- MUSIC PLAYER STYLES (MOVED TO BOTTOM) --- */
+        /* --- MUSIC PLAYER STYLES (CENTERED UNDER CARD) --- */
         .music-player-widget {
-            position: fixed;
-            bottom: 25px;
-            left: 25px;
-            z-index: 1000;
             display: flex;
             align-items: center;
             gap: 12px;
-            background: rgba(20, 15, 30, 0.45);
+            background: rgba(20, 15, 30, 0.55);
             backdrop-filter: blur(12px);
             -webkit-backdrop-filter: blur(12px);
             padding: 10px 16px 10px 10px;
             border-radius: 16px;
             border: 1px solid rgba(255, 255, 255, 0.15);
-            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.3);
+            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.4);
             color: #ffffff;
-            max-width: 380px;
-            width: calc(100% - 50px);
+            width: 100%;
+            opacity: 0;
+            transform: translateY(15px);
+            transition: opacity 0.8s ease-out 0.6s, transform 0.8s ease-out 0.6s;
         }
+        body.loaded .music-player-widget {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
         .music-cover {
             width: 48px;
             height: 48px;
@@ -147,16 +161,6 @@
             font-size: 16px;
         }
 
-        /* Responsive placement for mobile screens */
-        @media (max-width: 600px) {
-            .music-player-widget {
-                bottom: 15px;
-                left: 50%;
-                transform: translateX(-50%);
-                width: calc(100% - 30px);
-            }
-        }
-
         /* --- LOADING SCREEN ANIMATION STYLES --- */
         #loading-screen {
             position: fixed;
@@ -166,10 +170,12 @@
             height: 100%;
             background-color: #0b0616;
             display: flex;
+            flex-direction: column;
             justify-content: center;
             align-items: center;
             z-index: 9999;
             transition: opacity 0.6s ease-in-out, visibility 0.6s;
+            cursor: pointer;
         }
         #loading-text {
             color: #f3ebfc;
@@ -184,6 +190,19 @@
             opacity: 1;
             transform: translateY(0);
         }
+        .click-prompt {
+            position: absolute;
+            bottom: 40px;
+            color: rgba(243, 235, 252, 0.6);
+            font-size: 12px;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            animation: pulse 1.5s infinite;
+        }
+        @keyframes pulse {
+            0%, 100% { opacity: 0.3; }
+            50% { opacity: 0.9; }
+        }
         .fade-out {
             opacity: 0;
             visibility: hidden;
@@ -192,7 +211,6 @@
         /* Main Container Card */
         .profile-card {
             width: 100%;
-            max-width: 550px;
             background-color: rgba(243, 235, 252, 0.92);
             backdrop-filter: blur(10px);
             -webkit-backdrop-filter: blur(10px);
@@ -204,7 +222,6 @@
             opacity: 0;
             transform: scale(0.95);
             transition: opacity 0.8s ease-out 0.4s, transform 0.8s ease-out 0.4s;
-            margin-bottom: 40px;
         }
         body.loaded .profile-card {
             opacity: 1;
@@ -373,109 +390,115 @@
     <source src="bg.mp4" type="video/mp4">
 </video>
 
-<!-- Floating Music Player (Positioned at bottom-left) -->
-<div class="music-player-widget">
-    <div class="music-cover">
-        <i class="fa-solid fa-music"></i>
-        <img src="musicimg.jpg" alt="Cover" id="music-cover-img" onerror="this.style.display='none'">
-    </div>
-    <div class="music-info">
-        <div class="music-title">zenithsouuu</div>
-        <div class="music-controls-row">
-            <span class="time-text" id="current-time">0:00</span>
-            <div class="progress-bar-container" id="progress-container">
-                <div class="progress-bar" id="progress-bar"></div>
+<!-- Loading Screen Overlay -->
+<div id="loading-screen">
+    <div id="loading-text">Welcome</div>
+    <div class="click-prompt">[ Click Anywhere to Unmute ]</div>
+</div>
+
+<!-- Center Wrapper holding both Profile Card and Music Player -->
+<div class="page-container">
+    
+    <!-- Profile Card -->
+    <div class="profile-card">
+        <div class="banner"></div>
+        
+        <div class="header-content">
+            <div class="avatar-container">
+                <img src="avatar.jpeg" alt="Avatar" class="avatar">
             </div>
-            <span class="time-text" id="duration">0:00</span>
+            <div class="badges">
+                <span class="badge"><i class="fa-solid fa-code"></i></span>
+                <span class="badge"><i class="fa-solid fa-compact-disc"></i></span>
+                <span class="badge"><i class="fa-solid fa-gamepad"></i></span>
+                <span class="badge"><i class="fa-solid fa-gem"></i></span>
+            </div>
+        </div>
+        
+        <div class="profile-body">
+            <h1 class="username">SAM</h1>
+            <p class="subtitle">Gamer?</p>
+            
+            <h2 class="section-title">About Me</h2>
+            <p class="about-text">
+                UI/UX Designer • Visual Editor • Gamer<br>
+                Crafting clean interfaces, editing visuals, and finding design inspiration everywhere—from video timelines to game HUDs. Thanks for Stopping By! Join my <a href="https://discord.com" target="_blank">Discord</a> server to play some games with me!
+            </p>
+            
+            <h2 class="section-title">Roles</h2>
+            <div class="roles-container">
+                <div class="role-pill"><span class="dot"></span> 🤙 animated</div>
+                <div class="role-pill"><span class="dot"></span> Bot Dev</div>
+                <div class="role-pill"><span class="dot"></span> Gamer</div>
+                <div class="role-pill"><span class="dot"></span> Crazy</div>
+            </div>
+            
+            <h2 class="section-title">Connections</h2>
+            <div class="connections-grid">
+                <a href="https://youtube.com/@sampowered" target="_blank" class="connection-card">
+                    <div class="connection-left">
+                        <i class="fa-brands fa-youtube"></i>
+                        <span>YouTube</span>
+                    </div>
+                    <i class="fa-solid fa-arrow-up-right-from-square external-icon"></i>
+                </a>
+                
+                <a href="https://github.com/sampowered" target="_blank" class="connection-card">
+                    <div class="connection-left">
+                        <i class="fa-brands fa-github"></i>
+                        <span>GitHub</span>
+                    </div>
+                    <i class="fa-solid fa-arrow-up-right-from-square external-icon"></i>
+                </a>
+                
+                <a href="https://discord.com" target="_blank" class="connection-card">
+                    <div class="connection-left">
+                        <i class="fa-brands fa-discord"></i>
+                        <span>Discord</span>
+                    </div>
+                    <i class="fa-solid fa-arrow-up-right-from-square external-icon"></i>
+                </a>
+
+                <a href="https://instagram.com/your_username" target="_blank" class="connection-card">
+                    <div class="connection-left">
+                        <i class="fa-brands fa-instagram"></i>
+                        <span>Instagram</span>
+                    </div>
+                    <i class="fa-solid fa-arrow-up-right-from-square external-icon"></i>
+                </a>
+            </div>
         </div>
     </div>
-    <div class="music-buttons">
-        <button class="music-btn" id="prev-btn"><i class="fa-solid fa-backward-step"></i></button>
-        <button class="music-btn play-btn" id="play-btn"><i class="fa-solid fa-play" id="play-icon"></i></button>
-        <button class="music-btn" id="next-btn"><i class="fa-solid fa-forward-step"></i></button>
+
+    <!-- Music Player (Centered Directly Below Profile Card) -->
+    <div class="music-player-widget">
+        <div class="music-cover">
+            <i class="fa-solid fa-music"></i>
+            <img src="musicimg.jpg" alt="Cover" id="music-cover-img" onerror="this.style.display='none'">
+        </div>
+        <div class="music-info">
+            <div class="music-title">zenithsouuu</div>
+            <div class="music-controls-row">
+                <span class="time-text" id="current-time">0:00</span>
+                <div class="progress-bar-container" id="progress-container">
+                    <div class="progress-bar" id="progress-bar"></div>
+                </div>
+                <span class="time-text" id="duration">0:00</span>
+            </div>
+        </div>
+        <div class="music-buttons">
+            <button class="music-btn" id="prev-btn"><i class="fa-solid fa-backward-step"></i></button>
+            <button class="music-btn play-btn" id="play-btn"><i class="fa-solid fa-play" id="play-icon"></i></button>
+            <button class="music-btn" id="next-btn"><i class="fa-solid fa-forward-step"></i></button>
+        </div>
     </div>
+
 </div>
 
 <!-- Audio Source -->
-<audio id="audio-player" src="music.mp3" preload="metadata" autoplay loop></audio>
-
-<!-- Loading Screen Overlay Structure -->
-<div id="loading-screen">
-    <div id="loading-text">Welcome</div>
-</div>
-
-<div class="profile-card">
-    <div class="banner"></div>
-    
-    <div class="header-content">
-        <div class="avatar-container">
-            <img src="avatar.jpeg" alt="Avatar" class="avatar">
-        </div>
-        <div class="badges">
-            <span class="badge"><i class="fa-solid fa-code"></i></span>
-            <span class="badge"><i class="fa-solid fa-compact-disc"></i></span>
-            <span class="badge"><i class="fa-solid fa-gamepad"></i></span>
-            <span class="badge"><i class="fa-solid fa-gem"></i></span>
-        </div>
-    </div>
-    
-    <div class="profile-body">
-        <h1 class="username">SAM</h1>
-        <p class="subtitle">Gamer?</p>
-        
-        <h2 class="section-title">About Me</h2>
-        <p class="about-text">
-            UI/UX Designer • Visual Editor • Gamer<br>
-            Crafting clean interfaces, editing visuals, and finding design inspiration everywhere—from video timelines to game HUDs. Thanks for Stopping By! Join my <a href="https://discord.com" target="_blank">Discord</a> server to play some games with me!
-        </p>
-        
-        <h2 class="section-title">Roles</h2>
-        <div class="roles-container">
-            <div class="role-pill"><span class="dot"></span> 🤙 animated</div>
-            <div class="role-pill"><span class="dot"></span> Bot Dev</div>
-            <div class="role-pill"><span class="dot"></span> Gamer</div>
-            <div class="role-pill"><span class="dot"></span> Crazy</div>
-        </div>
-        
-        <h2 class="section-title">Connections</h2>
-        <div class="connections-grid">
-            <a href="https://youtube.com/@sampowered" target="_blank" class="connection-card">
-                <div class="connection-left">
-                    <i class="fa-brands fa-youtube"></i>
-                    <span>YouTube</span>
-                </div>
-                <i class="fa-solid fa-arrow-up-right-from-square external-icon"></i>
-            </a>
-            
-            <a href="https://github.com/sampowered" target="_blank" class="connection-card">
-                <div class="connection-left">
-                    <i class="fa-brands fa-github"></i>
-                    <span>GitHub</span>
-                </div>
-                <i class="fa-solid fa-arrow-up-right-from-square external-icon"></i>
-            </a>
-            
-            <a href="https://discord.com" target="_blank" class="connection-card">
-                <div class="connection-left">
-                    <i class="fa-brands fa-discord"></i>
-                    <span>Discord</span>
-                </div>
-                <i class="fa-solid fa-arrow-up-right-from-square external-icon"></i>
-            </a>
-
-            <a href="https://instagram.com/your_username" target="_blank" class="connection-card">
-                <div class="connection-left">
-                    <i class="fa-brands fa-instagram"></i>
-                    <span>Instagram</span>
-                </div>
-                <i class="fa-solid fa-arrow-up-right-from-square external-icon"></i>
-            </a>
-        </div>
-    </div>
-</div>
+<audio id="audio-player" src="music.mp3" preload="auto" loop></audio>
 
 <script>
-    // --- MUSIC PLAYER LOGIC ---
     const audio = document.getElementById('audio-player');
     const playBtn = document.getElementById('play-btn');
     const playIcon = document.getElementById('play-icon');
@@ -485,6 +508,10 @@
     const durationEl = document.getElementById('duration');
     const prevBtn = document.getElementById('prev-btn');
     const nextBtn = document.getElementById('next-btn');
+    const screenElement = document.getElementById("loading-screen");
+    const textElement = document.getElementById("loading-text");
+
+    let isPlaying = false;
 
     function formatTime(seconds) {
         if (isNaN(seconds)) return "0:00";
@@ -493,26 +520,19 @@
         return `${mins}:${secs < 10 ? '0' : ''}${secs}`;
     }
 
-    function startPlayback() {
+    function playAudio() {
         audio.play().then(() => {
+            isPlaying = true;
             playIcon.classList.remove('fa-play');
             playIcon.classList.add('fa-pause');
-        }).catch(() => {
-            const handleFirstInteraction = () => {
-                audio.play();
-                playIcon.classList.remove('fa-play');
-                playIcon.classList.add('fa-pause');
-                document.removeEventListener('click', handleFirstInteraction);
-            };
-            document.addEventListener('click', handleFirstInteraction);
+        }).catch(err => {
+            console.log("Autoplay waiting for interaction:", err);
         });
     }
 
     function togglePlay() {
         if (audio.paused) {
-            audio.play();
-            playIcon.classList.remove('fa-play');
-            playIcon.classList.add('fa-pause');
+            playAudio();
         } else {
             audio.pause();
             playIcon.classList.remove('fa-pause');
@@ -546,10 +566,17 @@
     prevBtn.addEventListener('click', () => { audio.currentTime = 0; });
     nextBtn.addEventListener('click', () => { audio.currentTime = 0; });
 
+    // Enable Autoplay on ANY initial user click anywhere on screen
+    const enableAudioOnUserInteraction = () => {
+        playAudio();
+        document.removeEventListener('click', enableAudioOnUserInteraction);
+        document.removeEventListener('keydown', enableAudioOnUserInteraction);
+    };
+    document.addEventListener('click', enableAudioOnUserInteraction);
+    document.addEventListener('keydown', enableAudioOnUserInteraction);
+
     // --- LOADING SCREEN LOGIC ---
     const words = ["Welcome", "স্বাগতম", "स्वागत"];
-    const textElement = document.getElementById("loading-text");
-    const screenElement = document.getElementById("loading-screen");
     let currentWordIndex = 0;
 
     function cycleWords() {
@@ -565,12 +592,7 @@
         } else {
             screenElement.classList.add("fade-out");
             document.body.classList.add("loaded");
-            
-            setTimeout(() => {
-                document.body.style.overflow = "auto";
-            }, 600);
-
-            startPlayback();
+            playAudio(); // Attempt autoplay on load completion
         }
     }
 
