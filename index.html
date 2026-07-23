@@ -175,7 +175,6 @@
             align-items: center;
             z-index: 9999;
             transition: opacity 0.6s ease-in-out, visibility 0.6s;
-            cursor: pointer;
         }
         #loading-text {
             color: #f3ebfc;
@@ -189,19 +188,6 @@
         #loading-text.visible {
             opacity: 1;
             transform: translateY(0);
-        }
-        .click-prompt {
-            position: absolute;
-            bottom: 40px;
-            color: rgba(243, 235, 252, 0.6);
-            font-size: 12px;
-            letter-spacing: 1px;
-            text-transform: uppercase;
-            animation: pulse 1.5s infinite;
-        }
-        @keyframes pulse {
-            0%, 100% { opacity: 0.3; }
-            50% { opacity: 0.9; }
         }
         .fade-out {
             opacity: 0;
@@ -243,10 +229,9 @@
         .header-content {
             position: relative;
             padding: 0 25px;
-            height: 60px;
+            height: 50px;
             display: flex;
-            justify-content: space-between;
-            align-items: flex-end;
+            align-items: flex-start;
         }
         .avatar-container {
             position: absolute;
@@ -261,20 +246,26 @@
             background-color: #e0d5f5;
             object-fit: cover;
         }
+
+        /* --- FIXED BADGES POSITIONING (ON WHITE AREA BELOW BANNER) --- */
         .badges {
-            margin-left: 120px;
-            margin-bottom: 15px;
+            margin-left: 115px;
+            margin-top: 12px;
             display: flex;
-            gap: 8px;
-            font-size: 16px;
+            gap: 10px;
+            font-size: 18px;
+            align-items: center;
         }
         .badge {
             color: #7240c2;
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
 
         /* Profile Body Area */
         .profile-body {
-            padding: 15px 25px 25px 25px;
+            padding: 10px 25px 25px 25px;
         }
         .username {
             font-size: 20px;
@@ -393,7 +384,6 @@
 <!-- Loading Screen Overlay -->
 <div id="loading-screen">
     <div id="loading-text">Welcome</div>
-    <div class="click-prompt">[ Click Anywhere to Unmute ]</div>
 </div>
 
 <!-- Center Wrapper holding both Profile Card and Music Player -->
@@ -407,6 +397,7 @@
             <div class="avatar-container">
                 <img src="avatar.jpeg" alt="Avatar" class="avatar">
             </div>
+            <!-- Badges placed on top of the white background right next to avatar -->
             <div class="badges">
                 <span class="badge"><i class="fa-solid fa-code"></i></span>
                 <span class="badge"><i class="fa-solid fa-compact-disc"></i></span>
@@ -416,7 +407,7 @@
         </div>
         
         <div class="profile-body">
-            <h1 class="username">SΛM</h1>
+            <h1 class="username">SAM</h1>
             <p class="subtitle">Gamer?</p>
             
             <h2 class="section-title">About Me</h2>
@@ -459,7 +450,7 @@
                     <i class="fa-solid fa-arrow-up-right-from-square external-icon"></i>
                 </a>
 
-                <a href="https://instagram.com/sampowered" target="_blank" class="connection-card">
+                <a href="https://instagram.com/your_username" target="_blank" class="connection-card">
                     <div class="connection-left">
                         <i class="fa-brands fa-instagram"></i>
                         <span>Instagram</span>
@@ -477,7 +468,7 @@
             <img src="musicimg.jpg" alt="Cover" id="music-cover-img" onerror="this.style.display='none'">
         </div>
         <div class="music-info">
-            <div class="music-title">SΛM POWERED</div>
+            <div class="music-title">zenithsouuu</div>
             <div class="music-controls-row">
                 <span class="time-text" id="current-time">0:00</span>
                 <div class="progress-bar-container" id="progress-container">
@@ -511,8 +502,6 @@
     const screenElement = document.getElementById("loading-screen");
     const textElement = document.getElementById("loading-text");
 
-    let isPlaying = false;
-
     function formatTime(seconds) {
         if (isNaN(seconds)) return "0:00";
         const mins = Math.floor(seconds / 60);
@@ -520,19 +509,33 @@
         return `${mins}:${secs < 10 ? '0' : ''}${secs}`;
     }
 
-    function playAudio() {
+    function tryAutoplay() {
         audio.play().then(() => {
-            isPlaying = true;
             playIcon.classList.remove('fa-play');
             playIcon.classList.add('fa-pause');
-        }).catch(err => {
-            console.log("Autoplay waiting for interaction:", err);
+        }).catch(() => {
+            // If browser blocks immediate silent playback, trigger on any mouse movement or touch
+            const forcePlay = () => {
+                audio.play();
+                playIcon.classList.remove('fa-play');
+                playIcon.classList.add('fa-pause');
+                window.removeEventListener('click', forcePlay);
+                window.removeEventListener('mousemove', forcePlay);
+                window.removeEventListener('touchstart', forcePlay);
+                window.removeEventListener('keydown', forcePlay);
+            };
+            window.addEventListener('click', forcePlay);
+            window.addEventListener('mousemove', forcePlay);
+            window.addEventListener('touchstart', forcePlay);
+            window.addEventListener('keydown', forcePlay);
         });
     }
 
     function togglePlay() {
         if (audio.paused) {
-            playAudio();
+            audio.play();
+            playIcon.classList.remove('fa-play');
+            playIcon.classList.add('fa-pause');
         } else {
             audio.pause();
             playIcon.classList.remove('fa-pause');
@@ -566,15 +569,6 @@
     prevBtn.addEventListener('click', () => { audio.currentTime = 0; });
     nextBtn.addEventListener('click', () => { audio.currentTime = 0; });
 
-    // Enable Autoplay on ANY initial user click anywhere on screen
-    const enableAudioOnUserInteraction = () => {
-        playAudio();
-        document.removeEventListener('click', enableAudioOnUserInteraction);
-        document.removeEventListener('keydown', enableAudioOnUserInteraction);
-    };
-    document.addEventListener('click', enableAudioOnUserInteraction);
-    document.addEventListener('keydown', enableAudioOnUserInteraction);
-
     // --- LOADING SCREEN LOGIC ---
     const words = ["Welcome", "স্বাগতম", "स्वागत"];
     let currentWordIndex = 0;
@@ -592,11 +586,12 @@
         } else {
             screenElement.classList.add("fade-out");
             document.body.classList.add("loaded");
-            playAudio(); // Attempt autoplay on load completion
+            tryAutoplay();
         }
     }
 
     window.addEventListener("DOMContentLoaded", () => {
+        tryAutoplay(); // Trigger immediate playback attempt
         setTimeout(cycleWords, 200);
     });
 </script>
