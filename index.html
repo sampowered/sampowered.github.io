@@ -13,11 +13,6 @@
             padding: 0;
         }
         body {
-            background-image: url('bg.jpg');
-            background-size: cover;
-            background-position: center;
-            background-attachment: fixed;
-            background-repeat: no-repeat;
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             display: flex;
             justify-content: center;
@@ -25,12 +20,28 @@
             min-height: 100vh;
             padding: 20px;
             overflow: hidden;
+            background-color: #0b0616;
+        }
+
+        /* --- VIDEO BACKGROUND STYLES --- */
+        #bg-video {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            min-width: 100%;
+            min-height: 100%;
+            width: auto;
+            height: auto;
+            z-index: -1;
+            transform: translate(-50%, -50%);
+            object-fit: cover;
+            filter: brightness(0.85);
         }
         
-        /* --- MUSIC PLAYER STYLES --- */
+        /* --- MUSIC PLAYER STYLES (MOVED TO BOTTOM) --- */
         .music-player-widget {
             position: fixed;
-            top: 25px;
+            bottom: 25px;
             left: 25px;
             z-index: 1000;
             display: flex;
@@ -139,7 +150,7 @@
         /* Responsive placement for mobile screens */
         @media (max-width: 600px) {
             .music-player-widget {
-                top: 15px;
+                bottom: 15px;
                 left: 50%;
                 transform: translateX(-50%);
                 width: calc(100% - 30px);
@@ -182,16 +193,18 @@
         .profile-card {
             width: 100%;
             max-width: 550px;
-            background-color: #f3ebfc;
+            background-color: rgba(243, 235, 252, 0.92);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
             border-radius: 12px;
             overflow: hidden;
             box-shadow: 0 0 30px rgba(138, 43, 226, 0.3);
-            border: 2px solid #dcd1f0;
+            border: 2px solid rgba(220, 209, 240, 0.8);
             position: relative;
             opacity: 0;
             transform: scale(0.95);
             transition: opacity 0.8s ease-out 0.4s, transform 0.8s ease-out 0.4s;
-            margin-top: 40px;
+            margin-bottom: 40px;
         }
         body.loaded .profile-card {
             opacity: 1;
@@ -355,12 +368,15 @@
 </head>
 <body>
 
-<!-- Floating Music Player -->
+<!-- MP4 Video Background -->
+<video autoplay muted loop playsinline id="bg-video">
+    <source src="bg.mp4" type="video/mp4">
+</video>
+
+<!-- Floating Music Player (Positioned at bottom-left) -->
 <div class="music-player-widget">
     <div class="music-cover">
-        <!-- Default fallback icon -->
         <i class="fa-solid fa-music"></i>
-        <!-- Customizable image: Name your image 'musicimg.jpg' or 'musicimg.png' in GitHub -->
         <img src="musicimg.jpg" alt="Cover" id="music-cover-img" onerror="this.style.display='none'">
     </div>
     <div class="music-info">
@@ -380,8 +396,8 @@
     </div>
 </div>
 
-<!-- Audio Source (Update src to your uploaded audio file in GitHub) -->
-<audio id="audio-player" src="music.mp3" preload="metadata"></audio>
+<!-- Audio Source -->
+<audio id="audio-player" src="music.mp3" preload="metadata" autoplay loop></audio>
 
 <!-- Loading Screen Overlay Structure -->
 <div id="loading-screen">
@@ -389,10 +405,8 @@
 </div>
 
 <div class="profile-card">
-    <!-- Top Banner -->
     <div class="banner"></div>
     
-    <!-- Header with Avatar and Small Badges -->
     <div class="header-content">
         <div class="avatar-container">
             <img src="avatar.jpeg" alt="Avatar" class="avatar">
@@ -405,15 +419,14 @@
         </div>
     </div>
     
-    <!-- Profile Body Section -->
     <div class="profile-body">
         <h1 class="username">SAM</h1>
         <p class="subtitle">Gamer?</p>
         
         <h2 class="section-title">About Me</h2>
         <p class="about-text">
-            Hey, I'm Samrat<br>
-            I’m a UI/UX designer, visual editor, and gamer. This site is my digital living room—a space where I share the interfaces I design, the videos I edit, and the things I love creating. I look at everything through a designer's lens, whether I'm pushing pixels in Figma, tweaking keyframes, or grinding for rank. Thanks for stopping by! Join my <a href="https://discord.com" target="_blank">Discord</a> server to play some games with me!
+            UI/UX Designer • Visual Editor • Gamer<br>
+            Crafting clean interfaces, editing visuals, and finding design inspiration everywhere—from video timelines to game HUDs. Thanks for Stopping By! Join my <a href="https://discord.com" target="_blank">Discord</a> server to play some games with me!
         </p>
         
         <h2 class="section-title">Roles</h2>
@@ -426,7 +439,6 @@
         
         <h2 class="section-title">Connections</h2>
         <div class="connections-grid">
-            <!-- YouTube Link -->
             <a href="https://youtube.com/@sampowered" target="_blank" class="connection-card">
                 <div class="connection-left">
                     <i class="fa-brands fa-youtube"></i>
@@ -435,7 +447,6 @@
                 <i class="fa-solid fa-arrow-up-right-from-square external-icon"></i>
             </a>
             
-            <!-- GitHub Link -->
             <a href="https://github.com/sampowered" target="_blank" class="connection-card">
                 <div class="connection-left">
                     <i class="fa-brands fa-github"></i>
@@ -444,7 +455,6 @@
                 <i class="fa-solid fa-arrow-up-right-from-square external-icon"></i>
             </a>
             
-            <!-- Discord Link -->
             <a href="https://discord.com" target="_blank" class="connection-card">
                 <div class="connection-left">
                     <i class="fa-brands fa-discord"></i>
@@ -453,7 +463,6 @@
                 <i class="fa-solid fa-arrow-up-right-from-square external-icon"></i>
             </a>
 
-            <!-- Instagram Link -->
             <a href="https://instagram.com/your_username" target="_blank" class="connection-card">
                 <div class="connection-left">
                     <i class="fa-brands fa-instagram"></i>
@@ -465,38 +474,7 @@
     </div>
 </div>
 
-<!-- Loading Animation & Music Player Logic -->
 <script>
-    // --- LOADING SCREEN LOGIC ---
-    const words = ["Welcome", "স্বাগতম", "स्वागत"];
-    const textElement = document.getElementById("loading-text");
-    const screenElement = document.getElementById("loading-screen");
-    let currentWordIndex = 0;
-
-    function cycleWords() {
-        if (currentWordIndex < words.length) {
-            textElement.textContent = words[currentWordIndex];
-            textElement.classList.add("visible");
-
-            setTimeout(() => {
-                textElement.classList.remove("visible");
-                currentWordIndex++;
-                setTimeout(cycleWords, 300);
-            }, 1000); 
-        } else {
-            screenElement.classList.add("fade-out");
-            document.body.classList.add("loaded");
-            
-            setTimeout(() => {
-                document.body.style.overflow = "auto";
-            }, 600);
-        }
-    }
-
-    window.addEventListener("DOMContentLoaded", () => {
-        setTimeout(cycleWords, 200);
-    });
-
     // --- MUSIC PLAYER LOGIC ---
     const audio = document.getElementById('audio-player');
     const playBtn = document.getElementById('play-btn');
@@ -513,6 +491,21 @@
         const mins = Math.floor(seconds / 60);
         const secs = Math.floor(seconds % 60);
         return `${mins}:${secs < 10 ? '0' : ''}${secs}`;
+    }
+
+    function startPlayback() {
+        audio.play().then(() => {
+            playIcon.classList.remove('fa-play');
+            playIcon.classList.add('fa-pause');
+        }).catch(() => {
+            const handleFirstInteraction = () => {
+                audio.play();
+                playIcon.classList.remove('fa-play');
+                playIcon.classList.add('fa-pause');
+                document.removeEventListener('click', handleFirstInteraction);
+            };
+            document.addEventListener('click', handleFirstInteraction);
+        });
     }
 
     function togglePlay() {
@@ -550,14 +543,39 @@
         }
     });
 
-    // Restart track on Prev button
-    prevBtn.addEventListener('click', () => {
-        audio.currentTime = 0;
-    });
+    prevBtn.addEventListener('click', () => { audio.currentTime = 0; });
+    nextBtn.addEventListener('click', () => { audio.currentTime = 0; });
 
-    // Loop/Restart track on Next button
-    nextBtn.addEventListener('click', () => {
-        audio.currentTime = 0;
+    // --- LOADING SCREEN LOGIC ---
+    const words = ["Welcome", "স্বাগতম", "स्वागत"];
+    const textElement = document.getElementById("loading-text");
+    const screenElement = document.getElementById("loading-screen");
+    let currentWordIndex = 0;
+
+    function cycleWords() {
+        if (currentWordIndex < words.length) {
+            textElement.textContent = words[currentWordIndex];
+            textElement.classList.add("visible");
+
+            setTimeout(() => {
+                textElement.classList.remove("visible");
+                currentWordIndex++;
+                setTimeout(cycleWords, 300);
+            }, 1000); 
+        } else {
+            screenElement.classList.add("fade-out");
+            document.body.classList.add("loaded");
+            
+            setTimeout(() => {
+                document.body.style.overflow = "auto";
+            }, 600);
+
+            startPlayback();
+        }
+    }
+
+    window.addEventListener("DOMContentLoaded", () => {
+        setTimeout(cycleWords, 200);
     });
 </script>
 
