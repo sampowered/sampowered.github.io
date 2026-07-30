@@ -10,11 +10,7 @@
 
     <!-- FontAwesome for icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>sampowered</title>
-    <!-- FontAwesome for icons -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
     <style>
         * {
             box-sizing: border-box;
@@ -242,10 +238,10 @@
             backdrop-filter: blur(10px);
             -webkit-backdrop-filter: blur(10px);
             border-radius: 12px;
-            overflow: hidden;
+            overflow: visible; /* Changed from hidden so side dock doesn't clip */
             box-shadow: 0 0 30px rgba(138, 43, 226, 0.3);
             border: 2px solid rgba(220, 209, 240, 0.8);
-            position: relative;
+            position: relative; /* Anchor point for absolute side dock */
             opacity: 0;
             transform: scale(0.95);
             transition: opacity 0.8s ease-out 0.4s, transform 0.8s ease-out 0.4s;
@@ -264,6 +260,8 @@
             background-size: cover;
             background-position: center;
             position: relative;
+            border-top-left-radius: 10px;
+            border-top-right-radius: 10px;
         }
 
         /* Header holding Avatar & Badges */
@@ -415,6 +413,59 @@
             color: #9385a8;
             font-size: 12px;
         }
+
+        /* --- ACCURATE SIDE DOCK POSITIONING --- */
+        .side-dock {
+            position: absolute;
+            left: calc(100% + 18px); /* Anchored 18px to the right of profile card */
+            top: 50%;
+            transform: translateY(-50%);
+            display: flex;
+            flex-direction: column;
+            gap: 14px;
+            background: rgba(20, 15, 30, 0.55);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            padding: 12px;
+            border-radius: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.4);
+            z-index: 100;
+        }
+
+        .dock-icon {
+            width: 42px;
+            height: 42px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #7240c2;
+            font-size: 20px;
+            text-decoration: none !important; /* Removes blue underlines */
+            background: rgba(255, 255, 255, 0.8);
+            border: 1px solid rgba(218, 207, 240, 0.8);
+            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        .dock-icon:hover {
+            transform: scale(1.15);
+            color: #ffffff;
+            background: rgba(114, 64, 194, 0.8);
+            box-shadow: 0 0 15px rgba(138, 43, 226, 0.6);
+        }
+
+        /* Mobile Adjustments */
+        @media (max-width: 768px) {
+            .side-dock {
+                position: static;
+                flex-direction: row;
+                transform: none;
+                margin: 0 auto;
+                justify-content: center;
+                width: fit-content;
+            }
+        }
     </style>
 </head>
 <body>
@@ -493,7 +544,7 @@
                     <i class="fa-solid fa-arrow-up-right-from-square external-icon"></i>
                 </a>
 
-                <a href="https://instagram.com/your_username" target="_blank" class="connection-card">
+                <a href="https://instagram.com/sampowered" target="_blank" class="connection-card">
                     <div class="connection-left">
                         <i class="fa-brands fa-instagram"></i>
                         <span>Instagram</span>
@@ -501,6 +552,21 @@
                     <i class="fa-solid fa-arrow-up-right-from-square external-icon"></i>
                 </a>
             </div>
+        </div>
+
+        <!-- Floating Side Dock (Moved INSIDE profile-card to anchor correctly) -->
+        <div class="side-dock">
+            <a href="https://steamcommunity.com/id/sampowered" target="_blank" class="dock-icon" title="Steam">
+                <i class="fa-brands fa-steam"></i>
+            </a>
+
+            <a href="https://open.spotify.com/user/31zyng4m7bcsbuazgeisnwkwyqcy" target="_blank" class="dock-icon" title="Spotify">
+                <i class="fa-brands fa-spotify"></i>
+            </a>
+
+            <a href="https://github.com/sampowered" target="_blank" class="dock-icon" title="GitHub">
+                <i class="fa-brands fa-github"></i>
+            </a>
         </div>
     </div>
 
@@ -630,7 +696,7 @@
         playAudio();
     }
 
-    // Dismiss overlay on click (either early or when prompt is ready)
+    // Dismiss overlay on click
     screenElement.addEventListener("click", () => {
         dismissOverlay();
     });
@@ -639,23 +705,6 @@
         setTimeout(cycleWords, 200);
     });
 </script>
-<!-- Floating Side Dock -->
-<div class="side-dock">
-    <!-- Steam -->
-    <a href="https://steamcommunity.com/id/sampowered" target="_blank" class="dock-icon" title="Steam">
-        <i class="fa-brands fa-steam"></i>
-    </a>
 
-    <!-- Spotify -->
-    <a href="https://open.spotify.com/user/31zyng4m7bcsbuazgeisnwkwyqcy" target="_blank" class="dock-icon" title="Spotify">
-        <i class="fa-brands fa-spotify"></i>
-    </a>
-
-    <!-- GitHub -->
-    <a href="https://github.com/sampowered" target="_blank" class="dock-icon" title="GitHub">
-        <i class="fa-brands fa-github"></i>
-    </a>
-</div>
-    
 </body>
 </html>
